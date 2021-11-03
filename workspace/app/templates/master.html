@@ -35,18 +35,7 @@
         <h1 class="text-center">Starbucks Capstone Project</h1>
         <p class="text-center">Selecting the Best Offer for each Client</p>
         <hr />
-      
-        <!-- <div class="row">
-            <div class="col-lg-12 form-group-lg">
-                <form action="/go" method="get">
-                    <input type="text" class="form-control form-control-lg" name="query" placeholder="Enter a message to classify">
-                    <div class="col-lg-offset-5">
-                        <button type="submit" class="btn btn-lg btn-success">Classify Message</button>
-                    </div>
-                </form>
-            </div>
-        </div> -->
-
+  
         {% block message %}
         {% endblock %}
     </div>
@@ -54,9 +43,9 @@
 
 <div class="container">
     {% block content %}
-        <div class="page-header">
+        <!-- <div class="page-header">
             <h1 class="text-center">Overview of Training Dataset</h1>
-        </div>
+        </div> -->
     {% endblock %}
 
     {% for id in ids %}

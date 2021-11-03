@@ -21,7 +21,7 @@ from sklearn.metrics import classification_report
 """
 To run ML pipeline that trains classifier and saves
 
-`python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+`python models/train_classifier.py data/User.db models/classifier.pkl`
 """
 
 
@@ -61,6 +61,7 @@ def build_model():
 
     param = {
         'classifier__max_depth':[2,4,6,8] 
+        ,'classifier__n_estimators' : [100 , 200 ,300]
         }
     cv = GridSearchCV(estimator =pipeline, param_grid =param )
 

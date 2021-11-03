@@ -14,25 +14,24 @@ app = Flask(__name__)
 
 
 # load data
-# engine = create_engine('sqlite:///../data/User.db')
-# df = pd.read_sql("SELECT * FROM User", engine)
+engine = create_engine('sqlite:///../data/User.db')
+df = pd.read_sql("SELECT * FROM User", engine)
 
-# # load model
-# model = joblib.load("../models/classifier.pkl")
+# load model
+model = joblib.load("../models/classifier.pkl")
 
-# cols_drop =['selected_offer',
-#                         'last_info','event','became_member_on'
-#                         ,'offer_id', 'offer_type','gender',
-#             'amount','reward','difficulty','duration']
+cols_drop =['selected_offer',
+                        'last_info','event','became_member_on'
+                        ,'offer_id', 'offer_type','gender',
+            'amount','reward','difficulty','duration']
                             
-# X = df[df.last_info==1].copy()
-# X = X.drop(columns =cols_drop).fillna(0)
+X = df[df.last_info==1].copy()
+X = X.drop(columns =cols_drop).fillna(0).drop_duplicates(subset=['person'],keep='last')
 
-# classification_labels = model.predict(X.drop(columns=['person']))
+classification_labels = model.predict(X.drop(columns=['person']))
 
-# X['selected offer'] = classification_labels
-X=pd.read_csv(r'C:\Users\bruno\OneDrive\Documentos\GitHub\StarbucksCapstone\workspace\X.csv')
-df=pd.read_csv(r'C:\Users\bruno\OneDrive\Documentos\GitHub\StarbucksCapstone\workspace\df.csv')
+X['selected offer'] = classification_labels
+
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
@@ -54,13 +53,13 @@ def index():
     offer_success_rate = df_success['sucess_rate']
     offer_success_id = list(offer_success_rate.index)
 
-    # extract data needed for visuals
+    # creating base dataframe for demogaphics
     df_demo = df.drop_duplicates(subset=['person','gender','age']).copy()
     gender_counts = df_demo.groupby('gender').count()['person']
     gender_names = list(gender_counts.index)
 
 
-    #plot by category coun within messages using bins
+    #plot by ages count using bins
     df_demo['ages'] = pd.cut(x=df_demo['age'], bins=list(range(18,128,10)))
     df_demo['ages'] = df_demo.apply(lambda x: x.ages if x.age<118 else 'not informed',axis=1)
 
@@ -84,7 +83,13 @@ def index():
                     values=[X[k].tolist() for k in ['person', 'selected offer']])
                     
                 )
-            ]
+            ],
+
+            'layout': {
+                'title': 'Offers Selected'
+                
+                
+            }
         },
         {
             'data': [
