@@ -28,6 +28,7 @@ data<br>
 models<br>
 |- train_classifier.py- python file with the ML model<br>
 README.md<br>
+writeup.PDF
 
 
 ## Instructions:<br>
